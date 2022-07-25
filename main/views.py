@@ -1,11 +1,14 @@
 from curses.ascii import HT
 from django.shortcuts import render, redirect
-from .forms import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
-
+from django.contrib.auth import login
+from django.contrib import messages
+from .forms import ContactForm, NewUserForm
 
 # Create your views here.
+
+
 def say_hello(request):
     return HttpResponse("Main view")
 
@@ -35,3 +38,19 @@ def contact(request):
             return redirect("main:homepage")
     form = ContactForm()
     return render(request, "main/contact.html", {'form': form})
+
+# User Registration Request
+
+
+def register_request(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful.")
+            return redirect("main:homepage")
+        messages.error(
+            request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm()
+    return render(request=request, template_name="main/register.html", context={"register_form": form})

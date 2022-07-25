@@ -35,12 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
+    'django.contrib.sessions',
     'django.contrib.staticfiles',
     'crispy_forms',
     'main',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
