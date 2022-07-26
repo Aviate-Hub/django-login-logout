@@ -4,19 +4,33 @@ This views.py is under main app
 from curses.ascii import HT
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.contrib.auth import login
 from django.contrib import messages
 from .forms import ContactForm, NewUserForm
 
 # Create your views here.
 
-def sports_view(request):
-    return HttpResponse("Sports Page")
+article = {
+    'sports': 'Sports Pages',
+    'food': 'Food Pages',
+    'politics': 'Politics Pages',
+    'finance': 'Finance Pages',
+}
+
+"""
+Generic view for any articles
+"""
 
 
-def finance_view(request):
-    return HttpResponse("Finance Page")
+def news_view(request, topics):
+    try:
+        result = article[topics]
+        return HttpResponse(article[topics])
+    except:
+        result = '<h1>No page found for that topic {}!</h1>'.format(topics)
+        # return HttpResponseNotFound(result)
+        raise Http404(result)
 
 
 def say_hello(request):
