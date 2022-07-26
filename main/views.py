@@ -11,6 +11,13 @@ from .forms import ContactForm, NewUserForm
 
 # Create your views here.
 
+def sports_view(request):
+    return HttpResponse("Sports Page")
+
+
+def finance_view(request):
+    return HttpResponse("Finance Page")
+
 
 def say_hello(request):
     return HttpResponse("Main view")
