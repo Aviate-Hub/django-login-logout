@@ -1,3 +1,7 @@
+"""
+This urls.py is under main app 
+ """
+
 from django.urls import path
 from . import views
 

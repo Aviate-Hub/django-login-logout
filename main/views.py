@@ -1,3 +1,6 @@
+"""
+This views.py is under main app 
+ """
 from curses.ascii import HT
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
