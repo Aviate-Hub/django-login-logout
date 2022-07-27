@@ -10,7 +10,8 @@ app_name = "main"
 urlpatterns = [
     path("", views.homepage, name="home"),
     path('contact/', views.contact, name="contact"),
-    path('login/', views.say_hello, name='login'),
+    path('login/', views.login_request, name='login'),
+    path('logout/', views.logout_request, name='logout'),
     path('register/', views.register_request, name="register"),
     path('title/', views.variable_view),
     path('<int:num_page>/', views.num_page_view),
