@@ -4,14 +4,15 @@ This views.py is under main app
 from curses.ascii import HT
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.contrib.auth import login
 from django.contrib import messages
+from django.urls import reverse
 from .forms import ContactForm, NewUserForm
 
 # Create your views here.
 
-article = {
+articles = {
     'sports': 'Sports Pages',
     'food': 'Food Pages',
     'politics': 'Politics Pages',
@@ -23,14 +24,39 @@ Generic view for any articles
 """
 
 
-def news_view(request, topics):
+def news_view(request, topic):
     try:
-        result = article[topics]
-        return HttpResponse(article[topics])
+        result = articles[topic]
+        return HttpResponse(articles[topic])
     except:
-        result = '<h1>No page found for that topic {}!</h1>'.format(topics)
+        result = '<h1>No page found for that topic {}!</h1>'.format(topic)
         # return HttpResponseNotFound(result)
         raise Http404(result)
+
+
+"""
+Redirect users using numeric value to actual page
+"""
+
+
+def num_page_view(request, num_page):
+    # try:
+    #     topic_list = list(article.keys())  # ['sports', 'food', etc]
+    #     topic = topic_list[num_page]
+    #     return HttpResponseRedirect(topic)
+    # except:
+    #     result = '<h1>No page found for that topic {}!</h1>'.format(topic)
+    #     return HttpResponseNotFound(result)
+    topic_list = list(articles.keys())  # ['sports', 'food', etc]
+    topic = topic_list[num_page]
+
+    return HttpResponseRedirect(reverse('topic-page', args=[topic]))
+
+# Testing title
+
+
+def variable_view(request):
+    return render(request, 'main/header.html', context={'title': 'Home'})
 
 
 def say_hello(request):
@@ -38,7 +64,7 @@ def say_hello(request):
 
 
 def homepage(request):
-    return render(request, "main/home.html")
+    return render(request, "main/home.html", context={'title': 'Landing Page'})
 
 
 def contact(request):
